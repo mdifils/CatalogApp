@@ -32,6 +32,8 @@ Login page
 After logging in, a user has the ability to add, update, or delete actors and movies.
 He'll be able to watch movie trailers and write a post later on.
 ![itemslogged](images/loggedItems.png)
+
+Selecting an item
 ![item](images/item.png)
 ![edit_item](images/edititem.png)
 ![delete_item](images/deleteitem.png)
@@ -200,12 +202,14 @@ Do you want to continue? [Y/n] y
 ```
 When it's done you can now create your virtual environment:
 ![myenv](images/myenv.png)
+
 myenv is a new directory containing your virtual environment that you can activate
 with the `source myenv/bin/activate` for Linux users or `myenv\Scripts\activate.bat`
 for Windows users.
 Inside your virtual environment you don't need to specify python3 anymore. But
 you need to install the requirements. Make a new directory CatalogApp and put in
 `app.py`, `requirements.txt` and 'myproject' folder.
+
 ![requirements](images/requirements.png)
 You can choose either 2 methods. So for the next steps we'll be using the vagrant
 machine.
