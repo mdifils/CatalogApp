@@ -2,10 +2,12 @@ import requests
 from myproject import db, state
 from myproject.models import User, Actor, Movie, BlogPost
 from flask_login import login_user, current_user, logout_user, login_required
-from flask import (render_template, redirect, url_for, request, Blueprint, abort,
-                   flash, jsonify, make_response, session as login_session)
+from flask import (render_template, redirect, url_for, request, Blueprint,
+                   flash, jsonify, make_response, session as login_session,
+                   abort)
 
 movies = Blueprint('movies', __name__, template_folder='templates/movies')
+
 
 @movies.route('/<int:actor_id>/add', methods=['GET', 'POST'])
 @login_required
@@ -30,6 +32,7 @@ def add_movie(actor_id):
 
     return render_template('addMovie.html', actor_id=actor_id)
 
+
 @movies.route('/<int:actor_id>/<int:movie_id>/')
 @login_required
 def show_movie(actor_id, movie_id):
@@ -37,6 +40,7 @@ def show_movie(actor_id, movie_id):
     actor = Actor.query.get(actor_id)
     movie = Movie.query.get(movie_id)
     return render_template('showMovie.html', actor=actor, movie=movie)
+
 
 @movies.route('/<int:actor_id>/<int:movie_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -58,15 +62,17 @@ def edit_movie(actor_id, movie_id):
         db.session.commit()
 
         flash('Movie Updated')
-        return redirect(url_for('movies.show_movie', actor_id=actor_id, movie_id=movie_id))
+        return redirect(url_for('movies.show_movie', actor_id=actor_id,
+                                movie_id=movie_id))
 
     return render_template('editMovie.html', actor=actor, movie=movie)
+
 
 @movies.route("/<int:actor_id>/<int:movie_id>/delete", methods=['POST'])
 @login_required
 def delete_movie(actor_id, movie_id):
     """delete a movie from the database"""
-    
+
     movie = Movie.query.get(movie_id)
     db.session.delete(movie)
     db.session.commit()

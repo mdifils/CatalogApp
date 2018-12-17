@@ -2,10 +2,12 @@ import requests
 from myproject import db, state
 from myproject.models import User, Actor, Movie, BlogPost
 from flask_login import login_user, current_user, logout_user, login_required
-from flask import (render_template, redirect, url_for, request, Blueprint, abort,
-                   flash, jsonify, make_response, session as login_session)
+from flask import (render_template, redirect, url_for, request, Blueprint,
+                   flash, jsonify, make_response, session as login_session,
+                   abort)
 
 actors = Blueprint('actors', __name__, template_folder='templates/actors')
+
 
 @actors.route('/add', methods=['GET', 'POST'])
 @login_required
@@ -28,6 +30,7 @@ def add_actor():
 
     return render_template('addActor.html')
 
+
 @actors.route('/<int:actor_id>')
 def show_actor(actor_id):
     """Display full details about an actor"""
@@ -39,6 +42,7 @@ def show_actor(actor_id):
     if not movies:
         flash('No movies recorded for this actor yet.')
     return render_template('showActor.html', actor=actor, movies=movies)
+
 
 @actors.route('/<int:actor_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -60,6 +64,7 @@ def edit_actor(actor_id):
 
     return render_template('editActor.html', actor=actor)
 
+
 @actors.route("/<int:actor_id>/delete", methods=['POST'])
 @login_required
 def delete_actor(actor_id):
@@ -71,6 +76,7 @@ def delete_actor(actor_id):
     flash('Actor has been deleted')
     return redirect(url_for('index'))
 
+
 @actors.route('/json')
 def json_actor():
     """Grab all actors added and display them with their movies in a json
@@ -79,11 +85,12 @@ def json_actor():
     actors = Actor.query.all()
     return jsonify(actors=[a.serialize for a in actors])
 
+
 @actors.route('/results', methods=['POST'])
 @login_required
 def find_actor():
     """Find all actors whose names contain the provided string"""
-    
+
     if request.method == 'POST':
         search = request.form['search']
         actors = Actor.query.filter(Actor.name.contains(search)).all()

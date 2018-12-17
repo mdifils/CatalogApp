@@ -8,6 +8,7 @@ from myproject.models import Actor
 from flask import render_template, request, jsonify, redirect, url_for
 from flask_login import current_user
 
+
 @app.route('/')
 def index():
     """This is the main endpoint that render the home page along with all
@@ -19,6 +20,7 @@ def index():
                                                                   per_page=5)
     return render_template('home.html', actors=actors)
 
+
 @app.route('/json')
 def show_json():
     """This view will display a json object containing all actors added with
@@ -26,6 +28,7 @@ def show_json():
     """
     actors = Actor.query.all()
     return jsonify(actors=[a.serialize for a in actors])
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

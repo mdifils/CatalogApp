@@ -1,9 +1,11 @@
-import os, requests
+import os
+import requests
 from myproject import db, state
 from myproject.models import User, Actor, Movie, BlogPost
 from flask_login import login_user, current_user, logout_user, login_required
-from flask import (render_template, redirect, url_for, request, Blueprint, abort,
-                   flash, jsonify, make_response, session as login_session)
+from flask import (render_template, redirect, url_for, request, Blueprint,
+                   flash, jsonify, make_response, session as login_session,
+                   abort)
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
@@ -15,7 +17,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # YOU HAVE TO PUT YOUR 'client_secrets.json' FILE YOU DOWNLOADED AFTER
 # REGISTERING YOUR APP at https://console.cloud.google.com/apis/credential
 # Put it the same directory than this views.py (myproject/users)
-client_secrets = os.path.join(basedir,'client_secrets.json')
+client_secrets = os.path.join(basedir, 'client_secrets.json')
+
 
 def respond(message, status):
     """Make a flask response for handling errors"""
@@ -23,6 +26,7 @@ def respond(message, status):
     response.headers['Content-Type'] = 'application/json'
     print("response: {}".format(repr(response)))
     return response
+
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
@@ -39,6 +43,7 @@ def login():
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
+
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     """This view render the registration page if the method is GET """
@@ -54,6 +59,7 @@ def register():
         return redirect(url_for('users.login'))
 
     return render_template('register.html')
+
 
 @users.route('/fblogin', methods=['POST'])
 def fblogin():
@@ -91,6 +97,7 @@ def fblogin():
     flash(f"you are now logged in as {current_user.username}")
 
     return redirect(url_for('index'))
+
 
 @users.route('/glogin', methods=['POST'])
 def glogin():
@@ -156,6 +163,7 @@ def glogin():
 
     return redirect(url_for('index'))
 
+
 @users.route('/logout')
 @login_required
 def logout():
@@ -177,7 +185,8 @@ def logout():
             return redirect(url_for('index'))
         elif current_user.provider == 'facebook':
             facebook_id = current_user.provider_id
-            revoke_url = f'https://graph.facebook.com/{facebook_id}/permissions?'
+            revoke_url = f'https://graph.facebook.com/{facebook_id}/'
+            revoke_url += 'permissions?'
             params = {'access_token': current_user.token, 'alt': 'json'}
             # headers = {'content-type': 'application/x-www-form-urlencoded'}
             resp = requests.delete(revoke_url, params=params)

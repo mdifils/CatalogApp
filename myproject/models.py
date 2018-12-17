@@ -2,22 +2,25 @@ from datetime import datetime
 from myproject import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-#--------------------------------------------------------------------------#
+# -------------------------------------------------------------------------#
 # By inheriting the UserMixin we get access to a lot of built-in attributes#
 # which we will be able to call in our views!                              #
 # is_authenticated()                                                       #
 # is_active()                                                              #
 # is_anonymous()                                                           #
 # get_id()                                                                 #
-#--------------------------------------------------------------------------#
+# -------------------------------------------------------------------------#
 
 # The user_loader decorator allows flask-login to load the current user
 # and grab their id.
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
-#-------------Project Models: USER, ACTOR, MOVIE AND BLOGPOST-----------------
+# ------------Project Models: USER, ACTOR, MOVIE AND BLOGPOST-----------------
+
 
 class User(db.Model, UserMixin):
     """This class represents a table users in the database
@@ -42,8 +45,8 @@ class User(db.Model, UserMixin):
     def hash_password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self,password):
-        return check_password_hash(self.password_hash,password)
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         """This method helps to easily print an instance of the class"""
@@ -51,7 +54,8 @@ class User(db.Model, UserMixin):
 
     @property
     def serialize(self):
-        """This method will help to represent the class User as a json object"""
+        """This method will help to represent the class User as a json object
+        """
         return {
             'id': self.id,
             'username': self.username,
@@ -86,7 +90,8 @@ class Actor(db.Model):
 
     @property
     def serialize(self):
-        """This method will help to represent the class User as a json object"""
+        """This method will help to represent the class User as a json object
+        """
         return {
             'id': self.id,
             'name': self.name,
@@ -110,7 +115,8 @@ class Movie(db.Model):
     genre = db.Column(db.String(20))
     picture = db.Column(db.String())
     # Connecting the Movie to a particular actor (author)
-    actor_id = db.Column(db.Integer, db.ForeignKey('actors.id'), nullable=False)
+    actor_id = db.Column(db.Integer, db.ForeignKey('actors.id'),
+                         nullable=False)
     # Connecting the Movie to a particular user (creator)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     # Setup the relationship to the Actor table
@@ -120,7 +126,8 @@ class Movie(db.Model):
 
     @property
     def serialize(self):
-        """This method will help to represent the class User as a json object"""
+        """This method will help to represent the class User as a json object
+        """
         return {
             'id': self.id,
             'added_on': self.added_on,
@@ -153,7 +160,8 @@ class BlogPost(db.Model):
 
     @property
     def serialize(self):
-        """This method will help to represent the class User as a json object"""
+        """This method will help to represent the class User as a json object
+        """
         return {
             'id': self.id,
             'posted_on': self.posted_on,
