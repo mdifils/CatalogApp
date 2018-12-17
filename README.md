@@ -226,3 +226,6 @@ will create the _movieactors.db_ file in myproject folder.
 
 Then run the server and access it via your browser.
 ![webserver](images/webserver.png)
+
+You should have this page:
+![movieactors](images/movieactors.png)

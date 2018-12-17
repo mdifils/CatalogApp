@@ -5,7 +5,7 @@
 """
 from myproject import app
 from myproject.models import Actor
-from flask import render_template, request, jsonify, redirect, url_for
+from flask import render_template, request, jsonify, redirect, url_for, flash
 from flask_login import current_user
 
 
@@ -18,6 +18,8 @@ def index():
     page = request.args.get('page', 1, type=int)
     actors = Actor.query.order_by(Actor.added_on.desc()).paginate(page=page,
                                                                   per_page=5)
+    if not actors.items:
+        flash('No actors added yet, login and add some.')
     return render_template('home.html', actors=actors)
 
 
