@@ -1,0 +1,47 @@
+{% extends "main.html" %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <ul class="flash">
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{url_for('actors.add_actor')}}" method="POST">
+        <!-- NAME INPUT -->
+      <div class="form-group row">
+        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputName" placeholder="Name" name="name" required>
+        </div>
+      </div>
+      <!-- PICTURE URL INPUT -->
+      <div class="form-group row">
+        <label for="inputPicture" class="col-sm-2 col-form-label">Picture URL</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputPicture" placeholder="Picture URL" name="picture" required>
+        </div>
+      </div>
+      <!-- SHORT BIOGRAPHY INPUT -->
+      <div class="form-group row">
+        <label for="inputBio" class="col-sm-2 col-form-label">Short Biography</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" id="inputBio" placeholder="Biography" rows="3" name="short_bio" required></textarea>
+        </div>
+      </div>
+      <!-- SUBMIT BUTTON -->
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </form>
+{% endblock %}
