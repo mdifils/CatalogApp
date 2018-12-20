@@ -229,3 +229,5 @@ Then run the server and access it via your browser.
 
 You should have this page:
 ![movieactors](images/movieactors.png)
+
+To finish do not forget to put your google CLIENT ID  and facebook APP ID  in myproject/users/templates/users/login.html file.
