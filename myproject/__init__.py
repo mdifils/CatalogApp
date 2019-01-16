@@ -5,10 +5,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-# for blueprints registration
-from myproject.users.views import users
-from myproject.actors.views import actors
-from myproject.movies.views import movies
 
 # ---pseudo random string used as secret key and anti forgery state token------
 state = ''.join(random.choice(string.ascii_uppercase + string.digits) for
@@ -35,6 +31,11 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'users.login'
 
 # --------------------------register blueprints------------------------------
+# for blueprints registration
+from myproject.users.views import users
+from myproject.actors.views import actors
+from myproject.movies.views import movies
+
 app.register_blueprint(users, url_prefix="/user")
 app.register_blueprint(actors, url_prefix="/actor")
 app.register_blueprint(movies, url_prefix="/movie")
